@@ -1,0 +1,94 @@
+# Metadados do tópico — preencha tudo. O CI valida os campos obrigatórios.
+# Este arquivo também alimenta a indexação por ferramentas de IA.
+
+numero: "01"
+slug: "arquitetura-em-camadas"
+titulo: "Arquitetura em Camadas"
+subtitulo: "Conceitos, aplicabilidade e trade-offs do modelo de camadas"
+resumo: >-
+  Explora os princípios fundamentais da Arquitetura em Camadas (Layered Architecture). 
+  Entenda como a divisão estrutural interage para promover a separação de 
+  responsabilidades, facilitando a manutenção, o isolamento e a evolução do sistema.
+
+# Um tópico pode ter vários autores — liste um item por pessoa, na ordem em que
+# devem ser creditados. Todos entram no crédito, na citação e na lista de
+# contribuidores do site.
+autores:
+  - nome: "Maria Letícia de Sousa Barboza"
+    grupo: "Grupo 1" 
+    github: "omeIets" 
+    orcid: ""          
+  - nome: "João Henrique Lopes de Araújo Freire"
+    grupo: "Grupo 1"
+    github: "outro-usuario-github"
+    orcid: ""
+  - nome: "Ruan Henrique Pereira dos Santos"
+    grupo: "Grupo 1"
+    github: "outro-usuario-github"
+    orcid: ""
+  - nome: "Pedro Henrique Reis Xavier"
+    grupo: "Grupo 1"
+    github: "outro-usuario-github"
+    orcid: ""
+  - nome: "Caio Vinícius Santana Gomes"
+    grupo: "Grupo 1"
+    github: "outro-usuario-github"
+    orcid: ""
+  - nome: "Wellisson Daniel Ponciano"
+    grupo: "Grupo 1"
+    github: "outro-usuario-github"
+    orcid: ""
+
+status: "rascunho"        # rascunho | em-revisao | publicado | modelo
+data_criacao: "2026-09-19"
+ultima_revisao: "2026-09-19"
+revisado_por:
+  - "Maria Letícia"
+
+# Estrutura pedagógica
+competencias:
+  - "Descreva em forma de verbo + objeto o que o leitor consegue fazer depois"
+  - "Ex: avaliar quando a decomposição em camadas prejudica desempenho"
+nivel_bloom: ["compreender", "analisar"]   # lembrar|compreender|aplicar|analisar|avaliar|criar
+pre_requisitos: []                          # slugs de outros tópicos
+topicos_relacionados: []
+palavras_chave: ["palavra-chave", "keyword em inglês"]
+
+# Formatos entregues — o CI verifica a existência do que está marcado como true
+formatos:
+  texto: true
+  notebook:
+    entregue: true
+    colab_url: "https://colab.research.google.com/..."
+  audio_notebooklm:
+    entregue: true
+    arquivo: "assets/audio-notebooklm.m4a"   # ou deixe vazio e use url
+    url: ""
+    duracao_min: 12
+    transcricao: "assets/audio-transcricao.md"
+  gem_gemini:
+    entregue: true
+    url: "https://gemini.google.com/gem/..."
+    instrucoes: |
+      Cole aqui as instruções exatas usadas para configurar a Gem, para que
+      qualquer pessoa possa recriá-la ou melhorá-la.
+
+      Ex: "Você é um tutor de Arquitetura de Software especializado em <tópico>.
+      Baseie todas as respostas exclusivamente no texto e nas referências
+      fornecidas. Cite sempre a referência no formato [n]. Se a pergunta não for
+      coberta pelo material, diga isso em vez de improvisar."
+  slides:
+    entregue: true
+    num_slides: 16
+  # opcionais
+  video:
+    entregue: false
+    url: ""
+  podcast:
+    entregue: false
+    url: ""
+  mcp:
+    entregue: false
+    url: ""
+
+licenca: "CC-BY-NC-4.0"
