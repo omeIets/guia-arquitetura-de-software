@@ -47,12 +47,13 @@ revisado_por:
 
 # Estrutura pedagógica
 competencias:
-  - "Descreva em forma de verbo + objeto o que o leitor consegue fazer depois"
-  - "Ex: avaliar quando a decomposição em camadas prejudica desempenho"
-nivel_bloom: ["compreender", "analisar"]   # lembrar|compreender|aplicar|analisar|avaliar|criar
+  - "compreender os princípios e responsabilidades da arquitetura em camadas"
+  - "identificar cenários onde a arquitetura em camadas é aplicável"
+  - "avaliar os trade-offs e desafios de manter a separação de interesses neste modelo"
+nivel_bloom: ["compreender", "analisar", "avaliar"]   # lembrar|compreender|aplicar|analisar|avaliar|criar
 pre_requisitos: []                          # slugs de outros tópicos
 topicos_relacionados: []
-palavras_chave: ["palavra-chave", "keyword em inglês"]
+palavras_chave: ["arquitetura em camadas", "layered architecture", "separação de interesses", "design estrutural"]
 
 # Formatos entregues — o CI verifica a existência do que está marcado como true
 formatos:
