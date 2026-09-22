@@ -164,39 +164,30 @@ de abrir o PR — funcionar na sua máquina não é suficiente.
 
 ## Trade-offs
 
-Esta é a seção que separa um texto útil de um resumo de Wikipédia. Nenhum estilo
-arquitetural é melhor que outro em abstrato: cada um favorece certos atributos de
-qualidade ao custo de outros [@richards2020fundamentals].
-
-Seja específico quanto à dimensão. "É mais escalável" não diz nada — escalável em
-quê? Número de requisições simultâneas? Número de desenvolvedores trabalhando em
-paralelo? Volume de dados?
-
-| Atributo | Efeito | Por quê |
-|---|---|---|
-| Modificabilidade | Favorecida | Mudança em uma camada não propaga, desde que a interface se mantenha |
-| Desempenho | Comprometido | Cada requisição atravessa todas as camadas, somando latência |
-| Testabilidade | Favorecida | Camadas podem ser substituídas por dublês em teste |
-| Simplicidade operacional | Comprometida | Mais partes para implantar e monitorar |
+{{< include _trade-offs.md >}}
 
 ## Quando usar e quando não usar
 
-Feche com critérios de decisão acionáveis, na forma de condições verificáveis, não
-de recomendações vagas.
+A decisão de adotar uma arquitetura em camadas deve ser orientada pelas características concretas do projeto e da equipe, não por preferência subjetiva. O padrão *Layers*, formalizado por Buschmann et al. [-@buschmann1996pattern, cap. 2], não é uma solução universal: Bass, Clements e Kazman [-@bass2003practice, cap. 4] defendem que a escolha de um estilo arquitetural precisa ser justificada pelos atributos de qualidade prioritários do sistema, avaliados contra os compromissos inerentes a cada modelo.
 
 **Considere usar quando:**
 
-- A condição concreta que torna esse estilo adequado
-- Outra condição
+- O sistema possui **complexidade de domínio significativa**, com regras de negócio que tendem a evoluir independentemente da interface e da infraestrutura de dados. A separação em camadas isola essas mudanças e reduz o risco de efeitos colaterais [@sommerville2011engenharia, cap. 6].
+- A equipe de desenvolvimento é **grande ou distribuída**, de modo que diferentes grupos possam trabalhar em camadas distintas com mínima coordenação. A fronteira entre camadas funciona como um contrato estável que permite desenvolvimento paralelo [@bass2003practice, cap. 5].
+- O projeto exige **manutenção de longo prazo** e ciclos frequentes de atualização tecnológica. A capacidade de substituir uma camada inteira — por exemplo, migrar de um framework de apresentação para outro — sem reescrever o domínio justifica o investimento inicial na separação.
+- Existe necessidade de **múltiplas interfaces** sobre a mesma lógica (Web, mobile, API pública), cenário em que o reuso da camada de domínio elimina duplicação de código e inconsistências de comportamento [@fowler2015presentation].
 
 **Evite quando:**
 
-- A condição em que o custo supera o benefício
-- Outra condição
+- O sistema é um **protótipo ou prova de conceito** com ciclo de vida curto. A indireção introduzida pelas camadas adiciona complexidade que não será compensada pelo tempo de manutenção [@sommerville2011engenharia, cap. 6].
+- A aplicação é **simples o suficiente** para que toda a lógica caiba em um único módulo sem prejuízo à compreensão — por exemplo, utilitários de linha de comando, scripts de automação ou microserviços com escopo muito reduzido.
+- O desempenho por requisição é um **requisito crítico e inegociável**. Em sistemas de tempo real ou de altíssima vazão, o *overhead* de atravessar múltiplas camadas pode ser inaceitável, e uma arquitetura com menos indireção pode ser mais adequada [@bass2003practice, cap. 5].
 
 **Sinais de que a escolha foi errada:**
 
-- Sintoma observável que indica desalinhamento entre estilo e problema
+- A maioria das alterações exige modificações simultâneas em todas as camadas (*mudanças em cascata* frequentes), indicando que a separação não está alinhada com os eixos reais de mudança do sistema.
+- A camada de domínio tornou-se uma mera repassadora de dados (*pass-through layer*), sem lógica própria, sugerindo que a complexidade do problema não justifica a separação.
+- A equipe sistematicamente "fura" as camadas com atalhos diretos entre apresentação e persistência, revelando que as fronteiras estabelecidas impõem mais fricção do que benefício ao fluxo de trabalho.
 
 ::: {.callout-note}
 ## Slides deste tópico

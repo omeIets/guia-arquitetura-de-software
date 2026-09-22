@@ -38,6 +38,24 @@ campo `autores` de cada `content/NN-topico/metadata.yaml` — não edite à mão
 Prof. Matheus Barbosa
 </a>
 </td>
+<td align="center" width="150">
+<a href="https://github.com/omeIets">
+<img src="https://github.com/omeIets.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Maria Letícia de Sousa Barboza no GitHub"><br>
+Maria Letícia de Sousa Barboza
+</a>
+</td>
+<td align="center" width="150">
+<a href="https://github.com/joaohenrique11z">
+<img src="https://github.com/joaohenrique11z.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de João Henrique Lopes de Araújo Freire no GitHub"><br>
+João Henrique Lopes de Araújo Freire
+</a>
+</td>
+<td align="center" width="150">
+<a href="https://github.com/outro-usuario-github">
+<img src="https://github.com/outro-usuario-github.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Ruan Henrique Pereira dos Santos no GitHub"><br>
+Ruan Henrique Pereira dos Santos
+</a>
+</td>
 </tr>
 </table>
 
