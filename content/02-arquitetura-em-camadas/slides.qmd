@@ -101,12 +101,13 @@ distribuídas.
 ## O que o estilo proíbe
 
 - Domínio nunca conhece a Apresentação
-- Persistência não decide se um dado é válido — só guarda o que recebe
-- "Saltos" (Apresentação → Persistência) até acontecem, mas quebram a
-  garantia de que toda regra passou pelo Domínio [@bass2021software, cap. 1]
+- Persistência **nunca** conhece o Domínio
+- A dependência só aponta para baixo — o inverso gera ciclo
+  [@bass2021software, cap. 1]
 
 ::: {.notes}
-Esse é exatamente o antipadrão que a seção da violação demonstra a seguir.
+A violação que demonstramos é exatamente o sentido ascendente: a Persistência
+tentando chamar o Domínio.
 :::
 
 ## Exemplo aplicado
@@ -121,59 +122,51 @@ Sistema de gerenciamento de tarefas, em três camadas:
 ## A implementação correta
 
 ```python
-class PresentationCLI:
-    def __init__(self, service: TarefaService):
-        self._service = service
+class TarefaService:
+    def __init__(self, repositorio: TarefaRepository):  # dep. descendente — ok
+        self._repo = repositorio
 
-    def adicionar(self, titulo, prioridade="media"):
-        try:
-            tarefa = self._service.criar_tarefa(titulo, prioridade)
-            print(f"Tarefa criada: #{tarefa['id']}")
-        except TarefaInvalidaError as erro:
-            print(f"Erro: {erro}")
+class PresentationCLI:
+    def __init__(self, service: TarefaService):          # dep. descendente — ok
+        self._service = service
 ```
 
-`PresentationCLI` nunca referencia `TarefaRepository` diretamente.
+As setas apontam só para baixo: Apresentação → Domínio → Persistência.
 
 ::: {.notes}
-Consequência prática: o Domínio pode ser testado com um repositório falso,
-sem banco de dados real, porque depende só da interface pública.
+Consequência prática: cada camada pode ser testada com um dublê da camada
+abaixo, sem precisar carregar o sistema inteiro.
 :::
 
 ## A violação
 
 ```python
-# ANTIPADRÃO: Apresentação -> Persistência, pulando o Domínio
-class RelatorioDireto:
-    def __init__(self, repositorio: TarefaRepository):
-        self._repo = repositorio
+# ANTIPADRÃO: Persistência → Domínio (dependência ascendente)
+class TarefaRepositoryViolador(TarefaRepository):
+    def __init__(self, servico_notificacao=None):
+        super().__init__()
+        self._servico = servico_notificacao  # Persistência conhece o Domínio
 
-    def registrar_tarefa_de_sistema(self, titulo, prioridade):
-        # nenhuma validação — TarefaInvalidaError nunca é levantada aqui
-        dados = {"titulo": titulo, "prioridade": prioridade, "concluida": False}
-        return self._repo.salvar(dados)
+    def salvar(self, dados):
+        tarefa_id = super().salvar(dados)
+        self._servico.listar_pendentes()     # camada inferior invoca camada superior
+        return tarefa_id
 ```
 
-Resultado: título vazio e prioridade inválida salvos no banco.
+Resultado: ciclo — nenhum dos dois pode existir sem o outro.
 
 ## A consequência mensurável
 
-Contamos, no código-fonte de cada classe, quantas vezes ela referencia
-`TarefaRepository` por nome:
+Inspecionamos o código-fonte das classes de Persistência e contamos referências a classes de Domínio:
 
 ```
-PresentationCLI   referencias a TarefaRepository: 0 -> respeita o estilo
-RelatorioDireto   referencias a TarefaRepository: 1 -> viola o estilo
+TarefaRepository          Refs ao Domínio: nenhuma  → respeita o estilo
+TarefaRepositoryViolador  Refs ao Domínio: salvar:TarefaService → VIOLA o estilo
 ```
 
-Sem número, é opinião. Isso prova quem pulou a camada de Domínio.
+O ciclo prova o custo: instanciar um exige instanciar o outro.
 
-## Trade-offs
-
-Nenhum estilo é melhor em abstrato: cada um favorece atributos de qualidade
-ao custo de outros [@richards2020fundamentals].
-
-## Atributos favorecidos {.smaller}
+## Trade-offs favorecidos 
 
 - **Manutenibilidade** — mudança interna numa camada não se propaga, desde
   que a interface se mantenha
@@ -181,7 +174,7 @@ ao custo de outros [@richards2020fundamentals].
 - **Testabilidade** — camadas isoláveis, testáveis com dublês independentes
 - **Reuso** — uma camada inferior pode servir a múltiplas interfaces
 
-## Atributos sacrificados {.smaller}
+## Trade-offs sacrificados 
 
 - **Desempenho** — cada requisição atravessa todas as camadas, somando
   latência

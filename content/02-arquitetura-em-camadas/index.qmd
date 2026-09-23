@@ -154,15 +154,21 @@ Com a estrutura e as responsabilidades bem definidas, é importante entender os 
 ## Exemplo aplicado
 
 O exemplo deste tópico é um sistema de gerenciamento de tarefas com três
-camadas: TarefaRepository (Persistência), TarefaService (Domínio, dono das
-validações de título e prioridade) e PresentationCLI (Apresentação). O
-notebook implementa a versão completa.
+camadas: `TarefaRepository` (Persistência), `TarefaService` (Domínio, dono das
+validações de título e prioridade) e `PresentationCLI` (Apresentação).
 
-1. A implementação correta — PresentationCLI só fala com TarefaService...
-2. A violação — uma segunda apresentação (RelatorioDireto) acessa o
-   TarefaRepository direto, pulando as validações do TarefaService.
-3. A consequência mensurável — inspecionando o código-fonte das classes (ver notebook, seção 4), dá para provar que só quem viola a regra referencia a classe concreta de persistência....
-
+1. **A implementação correta** — `PresentationCLI` só fala com `TarefaService`;
+   `TarefaService` só fala com `TarefaRepository`. As dependências apontam
+   exclusivamente para baixo.
+2. **A violação** — `TarefaRepositoryViolador`, uma subclasse da Persistência,
+   injeta o `TarefaService` (Domínio) no próprio construtor e o chama dentro de
+   `salvar()`. Isso cria uma **dependência ascendente** (Persistência → Domínio),
+   exatamente o sentido proibido pelas setas tracejadas do diagrama.
+3. **A consequência mensurável** — a dependência ascendente gera um ciclo:
+   `TarefaService` depende de `TarefaRepository`; `TarefaRepositoryViolador`
+   depende de `TarefaService`. Nenhum dos dois pode ser instanciado nem testado
+   sem o outro. O notebook (seção 4) inspeciona o código-fonte das classes de
+   Persistência e prova com contagem de referências qual delas conhece o Domínio.
 
 ::: {.callout-note}
 ## Exemplo executável
