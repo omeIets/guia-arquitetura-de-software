@@ -63,13 +63,13 @@ formatos:
     colab_url: "https://colab.research.google.com/drive/1vZlMNFkLaEPXQnKZJFaMXBgh5OKB-1Al?usp=sharing"
   audio_notebooklm:
     entregue: true
-    arquivo: "assets/audio-notebooklm.m4a"   # ou deixe vazio e use url
-    url: ""
+    arquivo: ""   # ou deixe vazio e use url
+    url: "https://open.spotify.com/episode/4QAbowgllhdeZKOtkmlmbP?si=t2erNo5jTDWlPq7CuvwX0Q"
     duracao_min: 12
     transcricao: "assets/audio-transcricao.md"
   gem_gemini:
     entregue: true
-    url: "https://gemini.google.com/gem/..."
+    url: "https://gemini.google.com/gem/1krjUZgc8cYvjBu-8bu19-VkZMbJB6nb0?usp=sharing"
     instrucoes: |
       Cole aqui as instruções exatas usadas para configurar a Gem, para que
       qualquer pessoa possa recriá-la ou melhorá-la.
@@ -86,8 +86,8 @@ formatos:
     entregue: false
     url: ""
   podcast:
-    entregue: false
-    url: ""
+    entregue: true
+    url: "https://open.spotify.com/episode/4QAbowgllhdeZKOtkmlmbP?si=t2erNo5jTDWlPq7CuvwX0Q"
   mcp:
     entregue: false
     url: ""

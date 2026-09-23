@@ -168,6 +168,8 @@ O ciclo prova o custo: instanciar um exige instanciar o outro.
 
 ## Trade-offs favorecidos 
 
+Nenhum estilo é melhor em abstrato: cada um favorece certos atributos ao custo de outros [@richards2020fundamentals].
+
 - **Manutenibilidade** — mudança interna numa camada não se propaga, desde
   que a interface se mantenha
 - **Portabilidade** — trocar a camada superior não exige tocar nas inferiores
