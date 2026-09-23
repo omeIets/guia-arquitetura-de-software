@@ -167,12 +167,12 @@ validações de título e prioridade) e `PresentationCLI` (Apresentação).
 3. **A consequência mensurável** — a dependência ascendente gera um ciclo:
    `TarefaService` depende de `TarefaRepository`; `TarefaRepositoryViolador`
    depende de `TarefaService`. Nenhum dos dois pode ser instanciado nem testado
-   sem o outro. O notebook (seção 4) inspeciona o código-fonte das classes de
+   sem o outro. O notebook inspeciona o código-fonte das classes de
    Persistência e prova com contagem de referências qual delas conhece o Domínio.
 
 ::: {.callout-note}
 ## Exemplo executável
-O notebook deste tópico está em [notebook.ipynb](notebook.ipynb) e pode ser aberto direto no [Google Colab](https://colab.research.google.com/drive/1vZlMNFkLaEPXQnKZJFaMXBgh5OKB-1Al?usp=sharing)
+O notebook deste tópico está em [notebook.ipynb](notebook.ipynb) e pode ser aberto direto no [Google Colab](https://colab.research.google.com/drive/13LSKQhPEMDG7Mcd3dVn3kTvdY6LoCWUt?usp=sharing)
 :::
 
 ## Trade-offs
