@@ -142,13 +142,13 @@ Com a estrutura e as responsabilidades bem definidas, é importante entender os 
 
 - **Redução da carga cognitiva:** A maior vantagem no dia a dia do desenvolvimento é a redução do escopo de atenção. A separação permite que o desenvolvedor pense sobre os três pilares (interface, regras de negócio e banco de dados) de forma relativamente independente. Focar em um escopo estreito de cada vez torna o código muito mais fácil de ser compreendido e mantido.
 - **Substituição e Reusabilidade:** O isolamento modular permite substituir implementações inteiras de uma camada sem quebrar o resto do sistema. É possível criar múltiplas interfaces (como Web, Mobile e CLI) sobre a mesma lógica de domínio, evitando a duplicação de código. Da mesma forma, abstrair a fonte de dados permite que a equipe lide de forma graciosa com mudanças na tecnologia do banco de dados ou nos serviços de persistência, exigindo pouquíssimo impacto no resto da aplicação.
-- **Baixo acoplamento:** A arquitetura atua ativamente para minimizar e organizar as dependências entre as partes do sistema, criando fronteiras claras do que cada módulo pode ou não acessar.
+- **Baixo acoplamento:** A arquitetura atua ativamente para minimizar e organizar as dependências entre as partes do sistema, criando fronteiras claras do que cada módulo pode ou não acessar. Esse princípio remete diretamente ao critério de decomposição modular proposto por Parnas, segundo o qual os módulos devem ser definidos de modo a ocultar decisões de projeto que possam mudar [@parnas1972modularization].
 
 **Desvantagens:**
 
 - **Mudanças em cascata (Cascading changes):** Embora as camadas encapsulem muito bem a maioria dos comportamentos, elas não cobrem tudo. O exemplo clássico é quando surge um novo requisito para adicionar um simples campo na tela que precisa ser salvo no banco de dados: essa alteração exigirá modificações na interface, na lógica de domínio, na transferência de dados e na tabela do banco, propagando a mudança por todas as camadas intermediárias.
 - **Impacto na performance (Overhead):** Adicionar camadas extras pode prejudicar o desempenho da aplicação. A cada cruzamento de fronteira entre as camadas, os dados tipicamente precisam ser transformados ou mapeados de uma representação para outra (como transformar um registro SQL em um objeto de Domínio, e depois em um JSON para a Apresentação). Contudo, vale ressaltar que o encapsulamento também pode trazer ganhos de eficiência compensatórios, como uma camada centralizada de controle de transações otimizando o acesso ao banco.
-- **Complexidade de delimitação:** A parte mais difícil de adotar uma arquitetura em camadas não é a sua implementação técnica, mas sim o seu planejamento. Decidir quantas divisões criar e traçar a linha exata da responsabilidade de cada uma exige maturidade e experiência da equipe.
+- **Complexidade de delimitação:** A parte mais difícil de adotar uma arquitetura em camadas não é a sua implementação técnica, mas sim o seu planejamento. Decidir quantas divisões criar e traçar a linha exata da responsabilidade de cada uma exige maturidade e experiência da equipe. Belle et al. [-@belle2021layered] evidenciam que, em sistemas reais, a identificação de critérios claros para separar responsabilidades entre camadas continua sendo um dos principais desafios na adoção desse padrão.
 
 
 ## Exemplo aplicado
@@ -175,12 +175,12 @@ O notebook deste tópico está em [notebook.ipynb](notebook.ipynb) e pode ser ab
 
 ## Quando usar e quando não usar
 
-A decisão de adotar uma arquitetura em camadas deve ser orientada pelas características concretas do projeto e da equipe, não por preferência subjetiva. O padrão *Layers*, formalizado por Buschmann et al. [-@buschmann1996pattern, cap. 2], não é uma solução universal: Bass, Clements e Kazman [-@bass2003practice, cap. 4] defendem que a escolha de um estilo arquitetural precisa ser justificada pelos atributos de qualidade prioritários do sistema, avaliados contra os compromissos inerentes a cada modelo.
+A decisão de adotar uma arquitetura em camadas deve ser orientada pelas características concretas do projeto e da equipe, não por preferência subjetiva. O padrão *Layers*, formalizado por Buschmann et al. [-@buschmann1996pattern, cap. 2], não é uma solução universal: Bass, Clements e Kazman [-@bass2021software, cap. 3] defendem que a escolha de um estilo arquitetural precisa ser justificada pelos atributos de qualidade prioritários do sistema, avaliados contra os compromissos inerentes a cada modelo.
 
 **Considere usar quando:**
 
 - O sistema possui **complexidade de domínio significativa**, com regras de negócio que tendem a evoluir independentemente da interface e da infraestrutura de dados. A separação em camadas isola essas mudanças e reduz o risco de efeitos colaterais [@sommerville2011engenharia, cap. 6].
-- A equipe de desenvolvimento é **grande ou distribuída**, de modo que diferentes grupos possam trabalhar em camadas distintas com mínima coordenação. A fronteira entre camadas funciona como um contrato estável que permite desenvolvimento paralelo [@bass2003practice, cap. 5].
+- A equipe de desenvolvimento é **grande ou distribuída**, de modo que diferentes grupos possam trabalhar em camadas distintas com mínima coordenação. A fronteira entre camadas funciona como um contrato estável que permite desenvolvimento paralelo [@bass2021software, cap. 2].
 - O projeto exige **manutenção de longo prazo** e ciclos frequentes de atualização tecnológica. A capacidade de substituir uma camada inteira — por exemplo, migrar de um framework de apresentação para outro — sem reescrever o domínio justifica o investimento inicial na separação.
 - Existe necessidade de **múltiplas interfaces** sobre a mesma lógica (Web, mobile, API pública), cenário em que o reuso da camada de domínio elimina duplicação de código e inconsistências de comportamento [@fowler2015presentation].
 
@@ -188,12 +188,12 @@ A decisão de adotar uma arquitetura em camadas deve ser orientada pelas caracte
 
 - O sistema é um **protótipo ou prova de conceito** com ciclo de vida curto. A indireção introduzida pelas camadas adiciona complexidade que não será compensada pelo tempo de manutenção [@sommerville2011engenharia, cap. 6].
 - A aplicação é **simples o suficiente** para que toda a lógica caiba em um único módulo sem prejuízo à compreensão — por exemplo, utilitários de linha de comando, scripts de automação ou microserviços com escopo muito reduzido.
-- O desempenho por requisição é um **requisito crítico e inegociável**. Em sistemas de tempo real ou de altíssima vazão, o *overhead* de atravessar múltiplas camadas pode ser inaceitável, e uma arquitetura com menos indireção pode ser mais adequada [@bass2003practice, cap. 5].
+- O desempenho por requisição é um **requisito crítico e inegociável**. Em sistemas de tempo real ou de altíssima vazão, o *overhead* de atravessar múltiplas camadas pode ser inaceitável, e uma arquitetura com menos indireção pode ser mais adequada [@bass2021software, cap. 9].
 
 **Sinais de que a escolha foi errada:**
 
 - A maioria das alterações exige modificações simultâneas em todas as camadas (*mudanças em cascata* frequentes), indicando que a separação não está alinhada com os eixos reais de mudança do sistema.
-- A camada de domínio tornou-se uma mera repassadora de dados (*pass-through layer*), sem lógica própria, sugerindo que a complexidade do problema não justifica a separação.
+- A camada de domínio tornou-se uma mera repassadora de dados (*pass-through layer*), sem lógica própria, sugerindo que a complexidade do problema não justifica a separação. Esse antipadrão é frequentemente reportado na literatura como indicativo de que os limites entre camadas foram definidos sem critérios suficientemente claros [@belle2021layered].
 - A equipe sistematicamente "fura" as camadas com atalhos diretos entre apresentação e persistência, revelando que as fronteiras estabelecidas impõem mais fricção do que benefício ao fluxo de trabalho.
 
 ::: {.callout-note}
