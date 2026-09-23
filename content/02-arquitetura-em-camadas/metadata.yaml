@@ -60,7 +60,7 @@ formatos:
   texto: true
   notebook:
     entregue: true
-    colab_url: "https://colab.research.google.com/..."
+    colab_url: "https://colab.research.google.com/drive/1vZlMNFkLaEPXQnKZJFaMXBgh5OKB-1Al?usp=sharing"
   audio_notebooklm:
     entregue: true
     arquivo: "assets/audio-notebooklm.m4a"   # ou deixe vazio e use url
