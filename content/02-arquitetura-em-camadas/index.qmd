@@ -4,6 +4,10 @@ subtitle: "Conceitos, aplicabilidade e trade-offs do modelo de camadas"
 author:
   - name: "Maria Letícia de Sousa Barboza"
   - name: "João Henrique Lopes de Araújo Freire"
+  - name: "Pedro Henrique Reis Xavier"
+  - name: "Wellison Danniel Soares Ponciano"
+  - name: "Caio Vinícius Santana Gomes"
+  - name: "Ruan Henrique Pereira dos Santos"
 date: 2026-08-30
 date-modified: last-modified
 bibliography: referencias.bib
@@ -141,26 +145,20 @@ Com a estrutura e as responsabilidades bem definidas, é importante entender os 
 
 ## Exemplo aplicado
 
-Traga um caso concreto e conecte-o ao notebook. O texto explica o raciocínio; o
-notebook mostra o código rodando. Os dois precisam falar do mesmo exemplo — se o
-texto discute um sistema de pedidos e o notebook implementa uma calculadora, a
-contribuição volta na revisão.
+O exemplo deste tópico é um sistema de gerenciamento de tarefas com três
+camadas: TarefaRepository (Persistência), TarefaService (Domínio, dono das
+validações de título e prioridade) e PresentationCLI (Apresentação). O
+notebook implementa a versão completa.
 
-Um bom exemplo aplicado mostra três coisas:
+1. A implementação correta — PresentationCLI só fala com TarefaService...
+2. A violação — uma segunda apresentação (RelatorioDireto) acessa o
+   TarefaRepository direto, pulando as validações do TarefaService.
+3. A consequência mensurável — inspecionando o código-fonte das classes (ver notebook, seção 4), dá para provar que só quem viola a regra referencia a classe concreta de persistência....
 
-1. **A implementação correta** — o conceito funcionando
-2. **A violação** — o que acontece quando a restrição do estilo é quebrada
-3. **A consequência mensurável** — o custo dessa violação, em acoplamento,
-   tempo de build, dificuldade de teste ou desempenho
 
 ::: {.callout-note}
 ## Exemplo executável
-O notebook deste tópico está em
-[`notebook.ipynb`](notebook.ipynb) e pode ser aberto direto no
-[Google Colab](https://colab.research.google.com/).
-
-O notebook precisa rodar de ponta a ponta em ambiente limpo. Teste no Colab antes
-de abrir o PR — funcionar na sua máquina não é suficiente.
+O notebook deste tópico está em [notebook.ipynb](notebook.ipynb) e pode ser aberto direto no [Google Colab](https://colab.research.google.com/drive/1vZlMNFkLaEPXQnKZJFaMXBgh5OKB-1Al?usp=sharing)
 :::
 
 ## Trade-offs
