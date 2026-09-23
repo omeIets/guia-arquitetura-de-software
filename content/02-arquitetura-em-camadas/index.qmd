@@ -29,7 +29,7 @@ keywords: ["arquitetura em camadas", "layered architecture", "separação de int
 <dd>Nenhum</dd>
 <dt>Formatos</dt>
 <dd>
-[texto]{.formato} [notebook](notebook.ipynb){.formato} [áudio](audio-notebooklm.m4a){.formato} [gem]{.formato} [slides](slides.qmd){.formato}
+[texto]{.formato} [notebook](notebook.ipynb){.formato} [áudio](audio-notebooklm.m4a){.formato} [gem](https://gemini.google.com/gem/1krjUZgc8cYvjBu-8bu19-VkZMbJB6nb0?usp=sharing){.formato} [slides](slides.qmd){.formato}
 </dd>
 </dl>
 :::
