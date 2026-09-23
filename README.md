@@ -51,9 +51,15 @@ João Henrique Lopes de Araújo Freire
 </a>
 </td>
 <td align="center" width="150">
-<a href="https://github.com/outro-usuario-github">
-<img src="https://github.com/outro-usuario-github.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Ruan Henrique Pereira dos Santos no GitHub"><br>
+<a href="https://github.com/RuanHD">
+<img src="https://github.com/RuanHD.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Ruan Henrique Pereira dos Santos no GitHub"><br>
 Ruan Henrique Pereira dos Santos
+</a>
+</td>
+<td align="center" width="150">
+<a href="https://github.com/xavier9190">
+<img src="https://github.com/xavier9190.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Pedro Henrique Reis Xavier no GitHub"><br>
+Pedro Henrique Reis Xavier
 </a>
 </td>
 </tr>
