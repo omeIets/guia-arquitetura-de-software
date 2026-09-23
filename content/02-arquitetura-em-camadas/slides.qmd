@@ -173,13 +173,25 @@ Sem número, é opinião. Isso prova quem pulou a camada de Domínio.
 Nenhum estilo é melhor em abstrato: cada um favorece atributos de qualidade
 ao custo de outros [@richards2020fundamentals].
 
-## Trade-offs em uma tabela {.smaller}
+## Atributos favorecidos {.smaller}
 
-{{< include _trade-offs.md >}}
+- **Manutenibilidade** — mudança interna numa camada não se propaga, desde
+  que a interface se mantenha
+- **Portabilidade** — trocar a camada superior não exige tocar nas inferiores
+- **Testabilidade** — camadas isoláveis, testáveis com dublês independentes
+- **Reuso** — uma camada inferior pode servir a múltiplas interfaces
+
+## Atributos sacrificados {.smaller}
+
+- **Desempenho** — cada requisição atravessa todas as camadas, somando
+  latência
+- **Simplicidade** — mais indireção do que uma arquitetura monolítica
+- **Acoplamento vertical** — mudar a interface de uma camada inferior pode
+  propagar ajustes para cima (*mudanças em cascata*)
 
 ::: {.notes}
-Esta tabela vem do mesmo `_trade-offs.md` incluído no index.qmd — editar em
-um lugar atualiza texto e slides.
+Detalhes e justificativas completas estão em `_trade-offs.md`, incluído no
+index.qmd — aqui só o resumo que cabe no slide.
 :::
 
 ## Quando usar
