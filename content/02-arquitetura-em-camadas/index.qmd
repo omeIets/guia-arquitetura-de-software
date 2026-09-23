@@ -29,10 +29,18 @@ keywords: ["arquitetura em camadas", "layered architecture", "separação de int
 <dd>Nenhum</dd>
 <dt>Formatos</dt>
 <dd>
-[texto]{.formato} [notebook](notebook.ipynb){.formato} [áudio]{.formato} [gem]{.formato} [slides](slides.qmd){.formato}
+[texto]{.formato} [notebook](notebook.ipynb){.formato} [áudio](podcast.m4a){.formato} [gem]{.formato} [slides](slides.qmd){.formato}
 </dd>
 </dl>
 :::
+
+
+🎧 **Ouça o episódio deste capítulo:** Uma discussão em formato de podcast sobre os conceitos e trade-offs da Arquitetura em Camadas.
+
+<audio controls style="width: 100%; margin-top: 10px; margin-bottom: 20px;">
+  <source src="assets/podcast.m4a" type="audio/mpeg">
+</audio>
+
 
 ## Definição e contexto
 
