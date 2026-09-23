@@ -56,10 +56,24 @@ João Henrique Lopes de Araújo Freire
 Ruan Henrique Pereira dos Santos
 </a>
 </td>
+</tr>
+<tr>
 <td align="center" width="150">
 <a href="https://github.com/xavier9190">
 <img src="https://github.com/xavier9190.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Pedro Henrique Reis Xavier no GitHub"><br>
 Pedro Henrique Reis Xavier
+</a>
+</td>
+<td align="center" width="150">
+<a href="https://github.com/Caioxlw">
+<img src="https://github.com/Caioxlw.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Caio Vinícius Santana Gomes no GitHub"><br>
+Caio Vinícius Santana Gomes
+</a>
+</td>
+<td align="center" width="150">
+<a href="https://github.com/DannSrs">
+<img src="https://github.com/DannSrs.png?size=100" width="100" height="100" style="border-radius:50%" alt="Foto de perfil de Wellison Danniel Soares Ponciano no GitHub"><br>
+Wellison Danniel Soares Ponciano
 </a>
 </td>
 </tr>
