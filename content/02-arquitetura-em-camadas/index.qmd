@@ -200,6 +200,88 @@ A apresentação está em [`slides.qmd`](slides.qmd) — 16 slides para uma fala
 20 minutos, com os mesmos exemplos e trade-offs deste texto.
 :::
 
+## Exercícios de fixação
+
+**Questão 1: Direção das Dependências**
+
+De acordo com o material, qual é a regra fundamental e inegociável sobre a direção das dependências na Arquitetura em Camadas?
+
+A) As dependências podem apontar para qualquer direção, desde que a camada de Persistência não acesse o banco de dados diretamente.
+B) As camadas inferiores conhecem e dependem das camadas superiores.
+C) As dependências devem apontar estritamente para baixo, onde a Apresentação conhece o Domínio e o Domínio conhece a Persistência, sendo o inverso proibido.
+D) Dependências cruzadas são permitidas para otimizar o tempo de resposta das requisições Web.
+
+<details>
+<summary>Gabarito e Explicação</summary>
+**Resposta: C**
+
+O princípio inegociável desse padrão é o fluxo unidirecional: as camadas superiores conhecem as inferiores, mas uma camada inferior (como Persistência) jamais deve saber quem a está consumindo (como o Domínio).
+</details>
+
+**Questão 2: Saúde da Arquitetura**
+
+Qual é um forte indício (teste informal de saúde arquitetural) de que a lógica de domínio "vazou" e foi indevidamente acoplada na camada de Apresentação?
+
+A) O tempo de build da aplicação aumentar significativamente.
+B) A necessidade de duplicar regras de negócio ao tentar adicionar uma nova interface (como adicionar um CLI a um sistema exclusivamente Web).
+C) A camada de persistência possuir consultas SQL muito complexas para formatar dados.
+D) A aplicação exigir múltiplas tabelas no banco de dados para salvar um único formulário.
+
+<details>
+<summary>Gabarito e Explicação</summary>
+**Resposta: B**
+
+O teste de saúde arquitetural consiste em imaginar a adição de uma interface externa radicalmente diferente; se for necessário duplicar regras para fazê-la funcionar, a lógica vazou para a interface original.
+</details>
+
+**Questão 3: Trade-offs (Compromissos)**
+
+Nenhum estilo arquitetural é perfeito. Segundo o texto, qual dos seguintes atributos de qualidade é frequentemente sacrificado (comprometido) ao adotar a Arquitetura em Camadas?
+
+A) Desempenho, pois cada requisição atravessa todas as camadas intermediárias, somando latência e overhead com a transformação de dados.
+B) Testabilidade, pois não é possível testar as regras de negócio de forma isolada.
+C) Portabilidade, já que é impossível substituir a interface de usuário sem reescrever a lógica.
+D) Manutenibilidade, pois uma mudança no banco de dados quebra automaticamente a interface web.
+
+<details>
+<summary>Gabarito e Explicação</summary>
+**Resposta: A**
+
+O desempenho é comprometido porque cada requisição acumula latência ao ter que atravessar fronteiras e transformar dados (ex.: SQL para Objeto, Objeto para JSON).
+</details>
+
+**Questão 4: Violação do Estilo (Exemplo Prático)**
+
+No exemplo do notebook sobre o sistema de gerenciamento de tarefas, o antipadrão demonstrado pela classe TarefaRepositoryViolador ocorre porque:
+
+A) O Repositório valida se o título da tarefa está vazio.
+B) A classe de Persistência instancia e chama explicitamente a camada de Domínio (TarefaService), criando uma dependência ascendente (para cima) e um ciclo infinito.
+C) A Apresentação chama diretamente o banco de dados ignorando as camadas inferiores.
+D) O Domínio se recusa a se comunicar com a interface de linha de comando.
+
+<details>
+<summary>Gabarito e Explicação</summary>
+**Resposta: B**
+
+A violação acontece quando a Persistência tenta notificar o Domínio, o que trava a arquitetura num ciclo fechado onde Domínio e Persistência se tornam inseparáveis nos testes e na execução.
+</details>
+
+**Questão 5: Quando Evitar**
+
+O texto menciona cenários onde a Arquitetura em Camadas não é recomendada. Em qual das situações abaixo esse estilo deve ser evitado?
+
+A) Em equipes grandes e distribuídas que precisam trabalhar em paralelo.
+B) Quando o sistema exige manutenção de longo prazo e ciclos frequentes de atualização tecnológica.
+C) Quando há necessidade de múltiplas interfaces (Web, API pública, Mobile) consumindo a mesma regra de negócio.
+D) Em protótipos de ciclo curto, utilitários simples de linha de comando ou sistemas onde o desempenho e a baixíssima latência por requisição são críticos e inegociáveis.
+
+<details>
+<summary>Gabarito e Explicação</summary>
+**Resposta: D**
+
+A indireção introduzida pelas camadas adiciona uma complexidade desnecessária para scripts simples ou protótipos, e o overhead pode ser inaceitável para sistemas de altíssima vazão em tempo real.
+</details>
+
 ## Referências
 
 As referências abaixo são geradas automaticamente a partir de `referencias.bib`.
