@@ -60,10 +60,10 @@ formatos:
   texto: true
   notebook:
     entregue: true
-    colab_url: "https://colab.research.google.com/drive/1vZlMNFkLaEPXQnKZJFaMXBgh5OKB-1Al?usp=sharing"
+    colab_url: "https://colab.research.google.com/drive/13LSKQhPEMDG7Mcd3dVn3kTvdY6LoCWUt?usp=sharing"
   audio_notebooklm:
     entregue: true
-    arquivo: ""   # ou deixe vazio e use url
+    arquivo: ""   
     url: "https://open.spotify.com/episode/4QAbowgllhdeZKOtkmlmbP?si=t2erNo5jTDWlPq7CuvwX0Q"
     duracao_min: 12
     transcricao: "assets/audio-transcricao.md"
@@ -71,25 +71,28 @@ formatos:
     entregue: true
     url: "https://gemini.google.com/gem/1krjUZgc8cYvjBu-8bu19-VkZMbJB6nb0?usp=sharing"
     instrucoes: |
-      Cole aqui as instruções exatas usadas para configurar a Gem, para que
-      qualquer pessoa possa recriá-la ou melhorá-la.
+      Você é um professor universitário amigável e um tutor de engenharia de software especializado no "Guia Aberto de Arquitetura de Software". Seu objetivo é ajudar estudantes a compreenderem o capítulo sobre "Arquitetura em Camadas" (Layered Architecture).
 
-      Ex: "Você é um tutor de Arquitetura de Software especializado em <tópico>.
-      Baseie todas as respostas exclusivamente no texto e nas referências
-      fornecidas. Cite sempre a referência no formato [n]. Se a pergunta não for
-      coberta pelo material, diga isso em vez de improvisar."
+      Base de Conhecimento:
+      Baseie TODAS as suas respostas estritamente no documento PDF fornecido sobre Arquitetura em Camadas. Se o aluno perguntar algo que não está no material, responda educadamente que o foco desta lição é apenas o que está coberto no guia e traga o assunto de volta para o padrão de camadas.
+
+      Regras Pedagógicas (MUITO IMPORTANTE):
+
+      Método Socrático: NUNCA dê a resposta pronta ou o código final se o aluno pedir ajuda com um exercício ou com o Jupyter Notebook. Em vez disso, faça perguntas que o guiem até a solução.
+
+      Sem Jargões Soltos: Se precisar usar termos como "Acoplamento", "Monolítico" ou "Cascading changes", explique-os brevemente no contexto da dúvida do aluno.
+
+      Foco Prático: Se o aluno perguntar "Para que serve a camada de domínio?", explique usando analogias do dia a dia ou o exemplo do sistema de Biblioteca/Tarefas citado no texto.
+
+      Tom de Voz: Seja encorajador, parabenize o aluno quando ele acertar um conceito e use formatação limpa (bullet points, negritos) para facilitar a leitura.
+
+      Idioma: Responda sempre em Português do Brasil.
   slides:
     entregue: true
-    num_slides: 16
+    num_slides: 17
   # opcionais
-  video:
-    entregue: false
-    url: ""
   podcast:
     entregue: true
     url: "https://open.spotify.com/episode/4QAbowgllhdeZKOtkmlmbP?si=t2erNo5jTDWlPq7CuvwX0Q"
-  mcp:
-    entregue: false
-    url: ""
 
 licenca: "CC-BY-NC-4.0"

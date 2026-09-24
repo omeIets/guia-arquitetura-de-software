@@ -80,6 +80,7 @@ responsabilidades isoladas — Apresentação, Domínio, Persistência.
 
 ::: {.column width="60%"}
 ```{mermaid}
+%%| fig-alt: "Diagrama de fluxo mostrando a camada de Apresentação delegando para o Domínio, que solicita dados para a Persistência. Há setas tracejadas indicando que o caminho inverso é proibido."
 flowchart TD
     A[Apresentação<br/>Web / CLI / Mobile] -->|delega| B[Domínio<br/>Regras de negócio]
     B -->|solicita dados| C[Persistência<br/>Repositórios]

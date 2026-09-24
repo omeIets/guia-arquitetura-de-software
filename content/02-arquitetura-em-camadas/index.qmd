@@ -76,6 +76,7 @@ Já a camada de **Persistência** (ou Data Access Layer) é responsável por se 
 ```{mermaid}
 %%| label: fig-estrutura
 %%| fig-cap: "Componentes do estilo arquitetural de 3 camadas, ilustrando as dependências top-down e o isolamento do banco de dados."
+%%| fig-alt: "Diagrama mostrando as três camadas empilhadas verticalmente: Apresentação (topo), Domínio (meio) e Persistência (base). As setas apontam para baixo indicando que as dependências fluem da camada superior para a inferior. A camada de persistência se conecta a um banco de dados."
 flowchart TD
     %% Definição de classes
     classDef presentation fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b,font-weight:bold,rx:6
