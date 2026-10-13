@@ -98,7 +98,7 @@ flowchart TD
     A -->|"1. Delega execução"| B
     B -->|"2. Solicita dados"| C
     A -.->|"Salto de Camada<br>(Opcional)"| C
-    
+
     C ===>|"3. Leitura / Escrita"| DB
 
     %% Fluxos de dependência proibidos (bottom-up)
@@ -294,9 +294,8 @@ Não escreva esta lista à mão.
 ::: {.como-citar}
 **Como citar este tópico**
 
-Nome Completo do Autor; Nome Completo da Segunda Autora. "Tópico modelo".
+Maria Letícia de Sousa Barboza; João Henrique Lopes de Araújo Freire; Ruan Henrique Pereira dos Santos; Pedro Henrique Reis Xavier; Caio Vinícius Santana Gomes; Wellison Danniel Soares Ponciano. "Arquitetura em Camadas".
 *Guia Aberto de Arquitetura de Software*, 2026. Disponível em:
-<https://ifpe-belojardim-es.github.io/guia-arquitetura-de-software/content/00-modelo/>. Licenciado sob CC BY-NC 4.0.
-
-Vários autores: separe por ponto e vírgula, na mesma ordem do `metadata.yaml`.
+<https://ifpe-belojardim-es.github.io/guia-arquitetura-de-software/content/02-arquitetura-em-camadas/>. Licenciado sob CC BY-NC 4.0.
 :::
+

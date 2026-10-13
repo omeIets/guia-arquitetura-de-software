@@ -1,7 +1,7 @@
 # Metadados do tópico — preencha tudo. O CI valida os campos obrigatórios.
 # Este arquivo também alimenta a indexação por ferramentas de IA.
 
-numero: "01"
+numero: "02"
 slug: "arquitetura-em-camadas"
 titulo: "Arquitetura em Camadas"
 subtitulo: "Conceitos, aplicabilidade e trade-offs do modelo de camadas"
@@ -39,7 +39,7 @@ autores:
     github: "DannSrs"
     orcid: ""
 
-status: "rascunho"        # rascunho | em-revisao | publicado | modelo
+status: "em-revisao"        # rascunho | em-revisao | publicado | modelo
 data_criacao: "2026-09-19"
 ultima_revisao: "2026-09-19"
 revisado_por:
