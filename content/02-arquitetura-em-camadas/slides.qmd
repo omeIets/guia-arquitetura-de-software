@@ -166,44 +166,54 @@ TarefaRepositoryViolador  Refs ao Domínio: salvar:TarefaService → VIOLA o est
 
 O ciclo prova o custo: instanciar um exige instanciar o outro.
 
-## Trade-offs favorecidos 
+## Trade-offs
 
-Nenhum estilo é melhor em abstrato: cada um favorece certos atributos ao custo de outros [@richards2020fundamentals].
+Nenhum estilo é melhor em abstrato: cada um favorece certos atributos ao custo
+de outros [@richards2020fundamentals, cap. 10].
 
-- **Manutenibilidade** — mudança interna numa camada não se propaga, desde
-  que a interface se mantenha
-- **Portabilidade** — trocar a camada superior não exige tocar nas inferiores
-- **Testabilidade** — camadas isoláveis, testáveis com dublês independentes
-- **Reuso** — uma camada inferior pode servir a múltiplas interfaces
-
-## Trade-offs sacrificados 
-
-- **Desempenho** — cada requisição atravessa todas as camadas, somando
+- **Separar por responsabilidade técnica** → ganhos de manutenção, teste e reuso
+- **Empacotar tudo em um único deploy** → custos em implantação, escala e
   latência
-- **Simplicidade** — mais indireção do que uma arquitetura monolítica
-- **Acoplamento vertical** — mudar a interface de uma camada inferior pode
-  propagar ajustes para cima (*mudanças em cascata*)
 
 ::: {.notes}
-Detalhes e justificativas completas estão em `_trade-offs.md`, incluído no
-index.qmd — aqui só o resumo que cabe no slide.
+Distinguir as duas decisões é a chave: camadas lógicas não são unidades de
+implantação. Os benefícios vêm da separação; a maior parte dos custos vem do
+monólito.
 :::
+
+## Trade-offs em uma tabela {.smaller .scrollable}
+
+{{< include _trade-offs.md >}}
+
+::: {.notes}
+Esta tabela vem do mesmo `_trade-offs.md` incluído no index.qmd — editar em um
+lugar atualiza texto e slides.
+:::
+
+## Architecture Sinkhole
+
+Requisições que atravessam Apresentação → Negócio → Persistência **sem lógica
+nenhuma**, só repassando dados [@richards2020fundamentals, cap. 10].
+
+- Regra 80-20: alguns repasses são inevitáveis
+- Mais de ~20% das requisições → o estilo não se ajusta ao problema
+- Camada **aberta** reduz a latência, mas enfraquece o isolamento
 
 ## Quando usar
 
 - Domínio com regras que evoluem independente da UI e dos dados
-- Equipe grande ou distribuída, trabalhando em camadas separadas
-- Projeto de manutenção longa, com troca previsível de tecnologia
-- Necessidade de múltiplas interfaces sobre a mesma lógica
+- Orçamento e prazo restritos, ou arquitetura final ainda incerta
+- Equipe organizada por especialidade técnica (front, back, banco)
+- Múltiplas interfaces sobre a mesma lógica
 
 ## Quando evitar
 
-- Protótipo ou prova de conceito de ciclo curto
-- Sistema simples o bastante para caber num único módulo
-- Desempenho por requisição é requisito crítico e inegociável
+- Partes que precisam escalar ou ser implantadas de forma independente
+- Desempenho por requisição crítico e inegociável
+- Protótipo de ciclo curto ou sistema que cabe num único módulo
 
-**Sinais de escolha errada:** mudanças em cascata frequentes, Domínio virando
-repassador de dados, equipe furando as camadas com atalhos.
+**Sinais de escolha errada:** mais de ~20% de *sinkholes*, mudanças em cascata
+frequentes, fila de deploy no monólito.
 
 ## Referências {.smaller}
 
