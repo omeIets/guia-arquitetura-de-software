@@ -39,11 +39,11 @@ autores:
     github: "DannSrs"
     orcid: ""
 
-status: "em-revisao"        # rascunho | em-revisao | publicado | modelo
+status: "publicado"        # rascunho | em-revisao | publicado | modelo
 data_criacao: "2026-09-19"
 ultima_revisao: "2026-09-19"
 revisado_por:
-  - "Maria Letícia"
+  - ""
 
 # Estrutura pedagógica
 competencias:
