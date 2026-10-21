@@ -56,7 +56,7 @@ responsabilidades isoladas — Apresentação, Domínio, Persistência.
 - Hierarquia rígida: cada camada só fala com a de baixo
 - Fluxo de controle unidirecional
 - Sem dependências circulares ou cruzadas
-- Origem: anos 1960, proposta por Dijkstra em 1968 [@dijkstra1968structure; @valente2020engenharia]
+- Origem: anos 1960, proposta por Dijkstra em 1968 [@valente2020engenharia]
 
 ## As três camadas
 
