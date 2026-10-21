@@ -35,47 +35,27 @@ keywords: ["arquitetura em camadas", "layered architecture", "separação de int
 
 ## Definição e contexto
 
-A **Arquitetura em Camadas** (*Layered Architecture*) organiza uma aplicação em divisões lógicas horizontais, onde cada camada possui uma responsabilidade única e **comunica-se estritamente com a camada imediatamente inferior**. O objetivo central é simples: separar o que o usuário enxerga, como o sistema processa as regras de negócio e onde os dados são salvos [@fowler2003patterns, cap. 1].
+A **Arquitetura em Camadas** (Layered Architecture) é um padrão de design estrutural que organiza o software em divisões lógicas com responsabilidades estritamente isoladas, tipicamente separadas em Apresentação, Negócio e Persistência. Ela estabelece uma hierarquia rígida: cada camada só pode se comunicar com a camada imediatamente inferior, garantindo um fluxo de controle unidirecional e prevenindo dependências circulares ou cruzadas.
 
-### O problema que motivou o padrão
+É um dos padrões mais usados desde os primeiros sistemas de grande porte, na década de 60, e uma das primeiras propostas foi de Edsger W. Dijkstra, em 1968 [@valente2020engenharia]. A ideia já aparecia em sistemas operacionais e protocolos de rede, como o modelo OSI, muito antes de chegar ao desenvolvimento web.
 
-Nos anos 1990, muitas aplicações seguiam o modelo cliente-servidor de duas camadas: a interface do usuário conectava-se diretamente ao banco de dados [@fowler2003patterns, cap. 1]. Para formulários simples de consulta e gravação, isso funcionava. Mas à medida que a complexidade dos negócios aumentou, esse modelo ruiu por três motivos:
+Nas aplicações corporativas, Fowler [-@fowler2003patterns, cap. 1] explica que os sistemas saíram de monólitos sem separação para o [modelo cliente-servidor](../04-cliente-servidor/index.qmd) dos anos 1990. Essa arquitetura de duas camadas servia para operações simples, mas não tinha lugar para regras de negócio complexas: a lógica acabava dentro da interface (UI), gerando código duplicado e manutenção difícil. Com a Orientação a Objetos, o mercado migrou para três camadas. Com a Web, o benefício ficou claro: com a lógica isolada, bastava criar novas interfaces para navegadores e reaproveitar o resto do sistema.
 
-1. **Lógica espalhada na tela:** Validações importantes e cálculos de negócio ficavam embutidos no código dos botões e formulários da interface.
-2. **Duplicação massiva:** Quando a empresa precisava criar uma nova interface (como a migração para a Web ou um aplicativo mobile), era necessário reescrever e duplicar toda a lógica do zero.
-3. **Manutenção frágil:** Uma pequena alteração no banco de dados quebrava diretamente os componentes visuais da tela.
+| Camada | Responsabilidades |
+|:---|:---|
+| Apresentação | Provisão de serviços, exibição de informações (ex: em HTML ou janelas desktop), manipulação das interações do usuário (cliques de mouse, toques de teclado), requisições HTTP, invocações via linha de comando ou execução de APIs em lote. |
+| Domínio | Lógica de negócio que representa o verdadeiro ponto central do sistema. |
+| Fonte de Dados | Comunicação com bancos de dados, sistemas de mensageria, gerenciadores de transações e outros pacotes ou serviços externos. |
 
-A saída foi a divisão clássica em **três camadas**. Esse princípio de decompor sistemas em níveis hierárquicos para gerenciar complexidade não era novo: foi formalizado por Dijkstra em 1968 [@dijkstra1968structure; @valente2020engenharia] e é a base de sistemas operacionais e protocolos de rede como o modelo OSI. Na Web, o ganho foi definitivo: mantendo a lógica de negócio isolada, basta criar novas interfaces sem alterar o restante do sistema.
+: As três camadas principais e suas responsabilidades. Fonte: [@fowler2003patterns, cap. 1]. {#tbl-camadas tbl-colwidths="[20,80]"}
 
 ## Estrutura e componentes
 
-Para que o modelo funcione sem ambiguidades, cada camada atua como um especialista isolado:
+A camada de **Apresentação** (ou Presentation Layer) tem como objetivo principal lidar com todas as interações entre o usuário e o software. Suas responsabilidades fundamentais são exibir informações de forma acessível e interpretar os comandos recebidos (como o clique em um botão, o preenchimento de um formulário ou uma requisição HTTP). Na prática, ela atua como uma tradutora: capta a ação do usuário na interface e a transforma em um formato estruturado para que as camadas inferiores possam processar. É fundamental que esta camada mantenha-se focada apenas na interface (seja ela web, mobile ou terminal), não contendo nenhuma lógica do funcionamento do sistema.
 
-### 1. Camada de Apresentação (*Presentation Layer*)
-* **O que faz:** É a porta de entrada da aplicação. Recebe comandos do usuário (como o clique em um botão, o preenchimento de um formulário ou uma requisição HTTP REST), formata os dados e devolve uma resposta visual ou estruturada.
-* **Onde vive:** Páginas Web (HTML/React), aplicativos móveis, telas desktop ou interfaces de linha de comando (CLI).
-* **O que NÃO pode ter:** **Zero regra de negócio**. A apresentação não deve calcular juros, não deve autorizar empréstimos e nunca deve executar queries SQL diretamente.
+A camada de **Lógica de Domínio** (também conhecida como Lógica de Negócio ou Business Logic Layer) é considerada o "coração" do sistema. Ela armazena toda a inteligência e as regras do trabalho que a aplicação de fato deve realizar. Suas responsabilidades envolvem executar cálculos, aplicar validações e garantir a conformidade e integridade dos dados, a partir dos comandos que recebe da camada de apresentação. Ao centralizar essas regras aqui, garante-se que o sistema se comporte da mesma maneira, independentemente da interface que o usuário esteja utilizando.
 
-### 2. Camada de Domínio (*Business Logic Layer*)
-* **O que faz:** É o cérebro e o verdadeiro centro de gravidade do sistema [@fowler2003patterns, cap. 1]. Concentra todas as regras de negócio, validações fundamentais e fluxos operacionais que definem o produto.
-* **Exemplos práticos:** "Um cliente inadimplente não pode fechar o pedido", "Aplicar 10% de desconto para compras acima de R$ 200", "Uma tarefa concluída não pode ser editada".
-* **O que NÃO pode ter:** É completamente agnóstica de interface. Não sabe se foi chamada por um navegador, por um app mobile ou por uma CLI, e também não gerencia conexões com o banco.
-
-### 3. Camada de Persistência (*Data Access Layer*)
-* **O que faz:** Realiza o trabalho técnico de salvar, ler e atualizar dados em armazenamento permanente (bancos relacionais, NoSQL ou serviços de mensageria). Ela abstrai a complexidade do banco para que o Domínio trabalhe com dados limpos.
-* **Exemplos práticos:** Escrever queries SQL, executar comandos de ORM (como JPA, SQLAlchemy, Hibernate) e gerenciar transações atômicas (*commit* / *rollback*).
-* **O que NÃO pode ter:** Não toma decisões de negócio nem dita regras; apenas busca e persiste o que a camada de Domínio solicitar.
-
-A tabela a seguir sintetiza as atribuições de cada um desses três componentes:
-
-| Camada | Missão principal | Na prática... |
-|:---|:---|:---|
-| **Apresentação** | Interface e interação com o usuário | Captura cliques, valida formulários na tela, recebe rotas HTTP e renderiza HTML ou JSON. |
-| **Domínio (Negócio)** | Regras corporativas da aplicação | Executa cálculos, valida políticas de negócio e decide o que é permitido. É o coração do software. |
-| **Persistência (Dados)** | Acesso a banco e serviços externos | Faz queries SQL, conversa com ORMs, bancos de dados, mensageria e gerencia transações. |
-
-: As três camadas clássicas e suas responsabilidades. Fonte: adaptado de [@fowler2003patterns, cap. 1]. {#tbl-camadas tbl-colwidths="[25,35,40]"}
-
+Já a camada de **Persistência** (ou Data Access Layer) é responsável por se comunicar com os sistemas e infraestruturas que armazenam as informações da aplicação de forma permanente. Para a esmagadora maioria das aplicações, o foco dessa camada é a comunicação direta com o banco de dados (relacional ou não relacional), gerenciando como os dados são salvos, lidos e atualizados. O grande papel dessa camada é abstrair a complexidade técnica dos dados: ela realiza o "trabalho sujo" (como escrever as queries SQL), entregando a informação limpa e pronta para ser usada pela camada de domínio.
 
 ```{mermaid}
 %%| label: fig-estrutura
@@ -117,32 +97,9 @@ flowchart TD
     class SW architecture
 ```
 
-### A regra de ouro: dependência sempre para baixo (*top-down*)
+A regra de dependência é inegociável: o fluxo é top-down, ou seja, as camadas superiores conhecem as inferiores, nunca o contrário. As camadas podem ser **fechadas** (*strict*), quando a requisição passa por todos os níveis (mais isolamento, porém mais código de repasse), ou **abertas** (*relaxed*), quando permitem "saltos", como a Apresentação consultar direto a Persistência numa leitura simples.
 
-A regra fundamental e inegociável da arquitetura em camadas é a **unidirecionalidade**:
-- A Apresentação depende do Domínio.
-- O Domínio depende da Persistência.
-- As camadas inferiores **nunca** dependem nem conhecem as camadas superiores.
-
-::: {.callout-warning}
-### Por que dependências ascendentes são proibidas?
-Se a camada de Persistência importar ou chamar a camada de Domínio, cria-se um **ciclo de dependências**. O repositório passa a exigir o serviço, e o serviço passa a exigir o repositório. O resultado é o pior dos mundos: a persistência não pode mais ser testada ou reaproveitada isoladamente, e qualquer alteração pequena gera um efeito dominó de falhas.
-:::
-
-### Camadas fechadas vs. abertas (*strict* vs. *relaxed*)
-
-Dependendo de como as requisições transitam entre os andares, o estilo pode ser configurado de duas formas [@richards2020fundamentals, cap. 10]:
-
-* **Camadas Fechadas (*Strict*):** A requisição é obrigada a passar por todos os níveis sem pular nenhum (Apresentação $\to$ Domínio $\to$ Persistência). Garante máximo isolamento e menor acoplamento, mas exige código de repasse mesmo quando não há regras a processar.
-* **Camadas Abertas (*Relaxed*):** Permite "saltos" pontuais (indicado pela linha tracejada no diagrama). Por exemplo: a Apresentação pode consultar direto a Persistência para carregar uma listagem simples somente-leitura. Reduz código desnecessário e melhora o tempo de resposta, mas diminui o isolamento.
-
-::: {.callout-tip}
-### Divisão lógica vs. divisão física
-Camadas (*layers*) representam a organização do **código** (pacotes, módulos e pastas), e não necessariamente servidores físicos separados (*tiers*). Em um monólito bem projetado, todas as três camadas rodam no mesmo processo em uma única máquina.
-
-O teste definitivo de saúde arquitetural é simples: se você precisar criar uma interface CLI para um sistema que já roda na Web e tiver que duplicar regras de negócio, a arquitetura falhou — a lógica de domínio "vazou" indevidamente para a Apresentação [@fowler2015presentation].
-:::
-
+Essas divisões são lógicas (organização de arquivos e pacotes), não físicas. Por isso uma camada pode ter vários pacotes, como uma interface gráfica e uma CLI usando o mesmo Domínio. Se for preciso duplicar lógica para a segunda interface funcionar, o domínio "vazou" para a Apresentação, e essa é a raiz dos principais trade-offs do modelo.
 
 
 ## Exemplo aplicado
@@ -159,10 +116,10 @@ validações de título e prioridade) e `PresentationCLI` (Apresentação).
    `salvar()`. Isso cria uma **dependência ascendente** (Persistência → Domínio),
    exatamente o sentido proibido pelas setas tracejadas do diagrama.
 3. A consequência mensurável: a dependência ascendente gera um ciclo.
-   `TarefaService` precisa do repositório, e `TarefaRepositoryViolador` precisa
-   do serviço. As duas classes só podem ser montadas com gambiarra, e a
-   Persistência deixa de funcionar sozinha. O notebook inspeciona o código das
-   classes, conta as referências ao Domínio e testa o isolamento de cada uma.
+   `TarefaService` depende de `TarefaRepository`; `TarefaRepositoryViolador`
+   depende de `TarefaService`. Nenhum dos dois pode ser instanciado nem testado
+   sem o outro. O notebook inspeciona o código-fonte das classes de
+   Persistência e prova com contagem de referências qual delas conhece o Domínio.
 
 ::: {.callout-note}
 ## Exemplo executável
@@ -281,7 +238,7 @@ O desempenho é comprometido porque cada requisição acumula latência ao ter q
 No exemplo do notebook sobre o sistema de gerenciamento de tarefas, o antipadrão demonstrado pela classe TarefaRepositoryViolador ocorre porque:
 
 A) O Repositório valida se o título da tarefa está vazio.
-B) A classe de Persistência recebe e chama explicitamente a camada de Domínio (TarefaService), criando uma dependência ascendente (para cima) e um ciclo de dependências.
+B) A classe de Persistência instancia e chama explicitamente a camada de Domínio (TarefaService), criando uma dependência ascendente (para cima) e um ciclo infinito.
 C) A Apresentação chama diretamente o banco de dados ignorando as camadas inferiores.
 D) O Domínio se recusa a se comunicar com a interface de linha de comando.
 
@@ -290,7 +247,7 @@ D) O Domínio se recusa a se comunicar com a interface de linha de comando.
 
 Resposta: B
 
-A violação acontece quando a Persistência passa a chamar o Domínio. Isso cria um ciclo de dependências: as classes só podem ser montadas com gambiarra, e a Persistência não pode mais ser testada sozinha.
+A violação acontece quando a Persistência tenta notificar o Domínio, o que trava a arquitetura num ciclo fechado onde Domínio e Persistência se tornam inseparáveis nos testes e na execução.
 </details>
 
 ### Questão 5: Quando Evitar
