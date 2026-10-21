@@ -116,10 +116,10 @@ validações de título e prioridade) e `PresentationCLI` (Apresentação).
    `salvar()`. Isso cria uma **dependência ascendente** (Persistência → Domínio),
    exatamente o sentido proibido pelas setas tracejadas do diagrama.
 3. A consequência mensurável: a dependência ascendente gera um ciclo.
-   `TarefaService` depende de `TarefaRepository`; `TarefaRepositoryViolador`
-   depende de `TarefaService`. Nenhum dos dois pode ser instanciado nem testado
-   sem o outro. O notebook inspeciona o código-fonte das classes de
-   Persistência e prova com contagem de referências qual delas conhece o Domínio.
+   `TarefaService` precisa do repositório, e `TarefaRepositoryViolador` precisa
+   do serviço. As duas classes só podem ser montadas com gambiarra, e a
+   Persistência deixa de funcionar sozinha. O notebook inspeciona o código das
+   classes, conta as referências ao Domínio e testa o isolamento de cada uma.
 
 ::: {.callout-note}
 ## Exemplo executável
@@ -238,7 +238,7 @@ O desempenho é comprometido porque cada requisição acumula latência ao ter q
 No exemplo do notebook sobre o sistema de gerenciamento de tarefas, o antipadrão demonstrado pela classe TarefaRepositoryViolador ocorre porque:
 
 A) O Repositório valida se o título da tarefa está vazio.
-B) A classe de Persistência instancia e chama explicitamente a camada de Domínio (TarefaService), criando uma dependência ascendente (para cima) e um ciclo infinito.
+B) A classe de Persistência recebe e chama explicitamente a camada de Domínio (TarefaService), criando uma dependência ascendente (para cima) e um ciclo de dependências.
 C) A Apresentação chama diretamente o banco de dados ignorando as camadas inferiores.
 D) O Domínio se recusa a se comunicar com a interface de linha de comando.
 
@@ -247,7 +247,7 @@ D) O Domínio se recusa a se comunicar com a interface de linha de comando.
 
 Resposta: B
 
-A violação acontece quando a Persistência tenta notificar o Domínio, o que trava a arquitetura num ciclo fechado onde Domínio e Persistência se tornam inseparáveis nos testes e na execução.
+A violação acontece quando a Persistência passa a chamar o Domínio. Isso cria um ciclo de dependências: as classes só podem ser montadas com gambiarra, e a Persistência não pode mais ser testada sozinha.
 </details>
 
 ### Questão 5: Quando Evitar
