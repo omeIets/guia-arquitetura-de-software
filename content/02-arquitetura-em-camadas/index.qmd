@@ -44,8 +44,8 @@ Nas aplicações corporativas, Fowler [-@fowler2003patterns, cap. 1] explica que
 | Camada | Responsabilidades |
 |:---|:---|
 | Apresentação | Provisão de serviços, exibição de informações (ex: em HTML ou janelas desktop), manipulação das interações do usuário (cliques de mouse, toques de teclado), requisições HTTP, invocações via linha de comando ou execução de APIs em lote. |
-| Domínio | Lógica de negócio que representa o verdadeiro ponto central do sistema. |
-| Fonte de Dados | Comunicação com bancos de dados, sistemas de mensageria, gerenciadores de transações e outros pacotes ou serviços externos. |
+| Negócio | Lógica de negócio que representa o verdadeiro ponto central do sistema. |
+| Persistência | Comunicação com bancos de dados, sistemas de mensageria, gerenciadores de transações e outros pacotes ou serviços externos. |
 
 : As três camadas principais e suas responsabilidades. Fonte: [@fowler2003patterns, cap. 1]. {#tbl-camadas tbl-colwidths="[20,80]"}
 
@@ -53,7 +53,7 @@ Nas aplicações corporativas, Fowler [-@fowler2003patterns, cap. 1] explica que
 
 A camada de **Apresentação** (ou Presentation Layer) tem como objetivo principal lidar com todas as interações entre o usuário e o software. Suas responsabilidades fundamentais são exibir informações de forma acessível e interpretar os comandos recebidos (como o clique em um botão, o preenchimento de um formulário ou uma requisição HTTP). Na prática, ela atua como uma tradutora: capta a ação do usuário na interface e a transforma em um formato estruturado para que as camadas inferiores possam processar. É fundamental que esta camada mantenha-se focada apenas na interface (seja ela web, mobile ou terminal), não contendo nenhuma lógica do funcionamento do sistema.
 
-A camada de **Lógica de Domínio** (também conhecida como Lógica de Negócio ou Business Logic Layer) é considerada o "coração" do sistema. Ela armazena toda a inteligência e as regras do trabalho que a aplicação de fato deve realizar. Suas responsabilidades envolvem executar cálculos, aplicar validações e garantir a conformidade e integridade dos dados, a partir dos comandos que recebe da camada de apresentação. Ao centralizar essas regras aqui, garante-se que o sistema se comporte da mesma maneira, independentemente da interface que o usuário esteja utilizando.
+A camada de **Lógica de Negócio** (também conhecida como Lógica de Domínio ou Business Logic Layer) é considerada o "coração" do sistema. Ela armazena toda a inteligência e as regras do trabalho que a aplicação de fato deve realizar. Suas responsabilidades envolvem executar cálculos, aplicar validações e garantir a conformidade e integridade dos dados, a partir dos comandos que recebe da camada de apresentação. Ao centralizar essas regras aqui, garante-se que o sistema se comporte da mesma maneira, independentemente da interface que o usuário esteja utilizando.
 
 Já a camada de **Persistência** (ou Data Access Layer) é responsável por se comunicar com os sistemas e infraestruturas que armazenam as informações da aplicação de forma permanente. Para a esmagadora maioria das aplicações, o foco dessa camada é a comunicação direta com o banco de dados (relacional ou não relacional), gerenciando como os dados são salvos, lidos e atualizados. O grande papel dessa camada é abstrair a complexidade técnica dos dados: ela realiza o "trabalho sujo" (como escrever as queries SQL), entregando a informação limpa e pronta para ser usada pela camada de domínio.
 
